@@ -4,56 +4,54 @@ import { faqs, categoryColors, type FAQ } from "@/lib/data";
 
 const CATEGORIES = ["All", "Registration", "Technical", "Events", "General"] as const;
 
-function FAQCard({ faq }: { faq: FAQ }) {
+function FAQItem({ faq }: { faq: FAQ }) {
   const [open, setOpen] = useState(false);
   
   return (
-    <div 
-      className={`bg-white rounded-2xl border border-gray-100 transition-all duration-300 cursor-pointer group card-shadow hover:card-shadow-hover ${
-        open ? "ring-2 ring-purple-400/50" : ""
-      }`}
-      onClick={() => setOpen(!open)}
-    >
-      <div className="p-6">
-        <div className="flex items-start justify-between gap-4 mb-4">
-          <div className="flex-1">
-            <span className={`inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 ${categoryColors[faq.category]}`}>
-              {faq.category.charAt(0).toUpperCase() + faq.category.slice(1)}
-            </span>
-            <h3 className="text-lg font-semibold text-gray-900 group-hover:text-purple-600 transition-colors">
-              {faq.question}
-            </h3>
-          </div>
-          <svg
-            className={`w-5 h-5 text-purple-500 flex-shrink-0 transition-transform duration-300 ${
-              open ? "rotate-180" : ""
-            }`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    <>
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full py-6 px-0 flex items-start justify-between gap-4 text-left hover:text-purple-600 transition-colors group"
+      >
+        <div className="flex items-start gap-3 flex-1">
+          <svg className="w-5 h-5 text-gray-400 mt-1 flex-shrink-0 group-hover:text-purple-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
+          <h3 className="text-base font-semibold text-gray-900 group-hover:text-purple-600 transition-colors">
+            {faq.question}
+          </h3>
         </div>
+        <svg
+          className={`w-5 h-5 text-gray-400 flex-shrink-0 transition-transform duration-300 group-hover:text-purple-400 ${
+            open ? "rotate-180" : ""
+          }`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
 
-        {open && (
-          <div className="mt-4 pt-4 border-t border-gray-100">
-            <p className="text-gray-600 leading-relaxed text-sm">
-              {faq.answer}
-            </p>
-            <div className="flex items-center gap-6 mt-4 pt-4 border-t border-gray-50 text-xs text-gray-500">
-              <button className="flex items-center gap-1 hover:text-purple-600 transition-colors">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.646 7.23a2 2 0 01-1.789 1.106H5a2 2 0 01-2-2V8a2 2 0 012-2h1.657a2 2 0 011.414.586l2.828-2.829a2 2 0 112.828 2.829l-.828.828" />
-                </svg>
-                Helpful
-              </button>
-              <span>156 views</span>
-            </div>
+      {open && (
+        <div className="pb-6 px-0 pl-8">
+          <p className="text-gray-600 leading-relaxed text-sm">
+            {faq.answer}
+          </p>
+          <div className="flex items-center gap-6 mt-4 text-xs text-gray-500">
+            <button className="flex items-center gap-1 hover:text-purple-600 transition-colors">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.646 7.23a2 2 0 01-1.789 1.106H5a2 2 0 01-2-2V8a2 2 0 012-2h1.657a2 2 0 011.414.586l2.828-2.829a2 2 0 112.828 2.829l-.828.828" />
+              </svg>
+              Helpful
+            </button>
+            <span>156 views</span>
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+      
+      <div className="border-b border-gray-100" />
+    </>
   );
 }
 
@@ -68,6 +66,14 @@ export default function FAQPage() {
       f.answer.toLowerCase().includes(search.toLowerCase());
     return matchCat && matchSearch;
   });
+
+  // Group FAQs by category for display
+  const groupedFAQs = filtered.reduce((acc, faq) => {
+    const category = faq.category.charAt(0).toUpperCase() + faq.category.slice(1);
+    if (!acc[category]) acc[category] = [];
+    acc[category].push(faq);
+    return acc;
+  }, {} as Record<string, FAQ[]>);
 
   const topContributors = [
     { name: "Alex Kumar", answers: 24, avatar: "AK" },
@@ -134,16 +140,40 @@ export default function FAQPage() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-8 pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* FAQ Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* FAQ Stacked List */}
           <div className="lg:col-span-2">
             {filtered.length > 0 ? (
-              <div className="grid gap-5 auto-rows-max">
-                {filtered.map((faq, idx) => (
-                  <div key={faq.id} className={idx % 2 === 0 ? "" : "lg:pt-8"}>
-                    <FAQCard faq={faq} />
-                  </div>
-                ))}
+              <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                {Object.entries(groupedFAQs).length > 0 ? (
+                  Object.entries(groupedFAQs).map(([category, items], categoryIdx) => (
+                    <div key={category}>
+                      {categoryIdx > 0 && <div className="border-t border-gray-200" />}
+                      
+                      {/* Category Header */}
+                      <div className="px-8 pt-8 pb-4">
+                        <h2 className="text-lg font-bold text-gray-900 border-b border-gray-200 pb-4">
+                          {Object.keys(groupedFAQs).filter((_, i) => i <= categoryIdx).reduce((acc, cat, i) => {
+                            if (i === categoryIdx) return (Object.values(groupedFAQs).slice(0, categoryIdx).reduce((sum, items) => sum + items.length, 0) + 1);
+                            return acc;
+                          }, 1)}. {category}
+                        </h2>
+                      </div>
+
+                      {/* FAQ Items */}
+                      <div className="px-8">
+                        {items.map((faq, itemIdx) => (
+                          <div key={faq.id}>
+                            <FAQItem faq={faq} />
+                            {itemIdx === items.length - 1 && categoryIdx === Object.entries(groupedFAQs).length - 1 && (
+                              <div className="hidden" />
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                ) : null}
               </div>
             ) : (
               <div className="text-center py-20">

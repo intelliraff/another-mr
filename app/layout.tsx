@@ -4,11 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { href: "/",       label: "FAQ Portal" },
-  { href: "/ask",    label: "AI Assistant" },
-  { href: "/raise",  label: "My Questions" },
-  { href: "/",       label: "My Issues" },
-  { href: "/",       label: "Leaderboard" },
+  { href: "/",        label: "FAQ Portal" },
+  { href: "/ask",     label: "AI Assistant" },
+  { href: "/raise",   label: "My Questions" },
+  { href: "/issues",  label: "My Issues" },
+  { href: "/",        label: "Leaderboard" },
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

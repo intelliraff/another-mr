@@ -1,13 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --background: #F8F9FC;
+  --foreground: #1a1a2e;
+  --card: #FFFFFF;
+  --card-border: #E5E7EB;
+  --primary: #534AB7;
+  --primary-light: #7F77DD;
+  --primary-dark: #3C3489;
+  --secondary: #8B5CF6;
+  --muted: #6B7280;
+  --muted-light: #D1D5DB;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+}
+
 html {
   scroll-behavior: smooth;
+  background-color: var(--background);
 }
 
 body {
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  color: var(--foreground);
+  background-color: var(--background);
+}
+
+/* Glassmorphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Premium card shadow */
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card-shadow-hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.08);
 }

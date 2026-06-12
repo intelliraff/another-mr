@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function ProfilePage() {
   const userProfile = {
@@ -50,12 +51,34 @@ export default function ProfilePage() {
     }
   ];
 
+  const zoomAttendance = {
+    sessionsAttended: 11,
+    totalSessions: 11,
+    minutesInSession: 1108,
+    totalMinutes: 1122,
+    pollsAnswered: 226,
+    totalPolls: 244,
+    breakdown: [
+      { date: "2026-06-01 (Mon)", time: "09:05-11:00 (2 joins)", email: "gordan.ramsey@gmail.com", attendance: "65/65 min", attendancePercent: 100, polls: "36/38", pollsPercent: 95 },
+      { date: "2026-06-02 (Tue)", time: "09:05-11:00", email: "gordan.ramsey@gmail.com", attendance: "115/115 min", attendancePercent: 100, polls: "10/11", pollsPercent: 91 },
+      { date: "2026-06-03 (Wed)", time: "09:05-11:00 (4 joins)", email: "gordan.ramsey@gmail.com", attendance: "62/62 min", attendancePercent: 100, polls: "11/15", pollsPercent: 73 },
+      { date: "2026-06-04 (Thu)", time: "09:05-10:45 (5 joins)", email: "gordan.ramsey@gmail.com", attendance: "97/101 min", attendancePercent: 96, polls: "19/19", pollsPercent: 100 },
+      { date: "2026-06-05 (Fri)", time: "09:05-11:00", email: "gordan.ramsey@gmail.com", attendance: "114/115 min", attendancePercent: 99, polls: "23/25", pollsPercent: 92 },
+      { date: "2026-06-06 (Sat)", time: "09:07-11:00 (2 joins)", email: "gordan.ramsey@gmail.com", attendance: "96/96 min", attendancePercent: 100, polls: "18/21", pollsPercent: 86 },
+      { date: "2026-06-08 (Mon)", time: "09:05-11:00 (2 joins)", email: "gordan.ramsey@gmail.com", attendance: "111/111 min", attendancePercent: 100, polls: "14/16", pollsPercent: 88 },
+      { date: "2026-06-09 (Tue)", time: "09:05-10:57 (2 joins)", email: "gordan.ramsey@gmail.com", attendance: "106/115 min", attendancePercent: 92, polls: "24/28", pollsPercent: 86 },
+      { date: "2026-06-10 (Wed)", time: "09:05-11:00", email: "gordan.ramsey@gmail.com", attendance: "115/115 min", attendancePercent: 100, polls: "22/22", pollsPercent: 100 },
+    ]
+  };
+
   const whatToDoNext = [
     "Earn 215 more SP to enter Top 50.",
     "Attend at least 75% of upcoming sessions to avoid attendance debit.",
     "Attempt every poll question to avoid poll debit.",
     "Check your SP Bank after each session to verify every credit and debit."
   ];
+
+  const [showBreakdown, setShowBreakdown] = useState(false);
 
   return (
     <div className="min-h-screen bg-white">
@@ -119,9 +142,14 @@ export default function ProfilePage() {
           {/* Current Status */}
           <div className="border border-gray-200 rounded-lg p-6 flex flex-col items-center justify-center">
             <h3 className="text-xs font-semibold text-gray-500 uppercase mb-4">Current Status</h3>
-            <button className="px-6 py-2 bg-gray-900 text-white text-sm font-semibold rounded-full hover:bg-gray-800 transition-colors">
+            <button className="px-6 py-2 bg-gray-900 text-white text-sm font-semibold rounded-full hover:bg-gray-800 transition-colors mb-6">
               ↗ {userProfile.status}
             </button>
+            <Link href="/leaderboard" className="w-full">
+              <button className="w-full px-4 py-2 border border-gray-200 text-gray-700 text-sm font-medium rounded hover:bg-gray-50 transition-colors">
+                View Leaderboard
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -157,6 +185,73 @@ export default function ProfilePage() {
                 <span className="text-gray-700">{item}</span>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* My Zoom Attendance */}
+        <div className="mb-12">
+          <h3 className="text-xs font-semibold text-gray-500 uppercase mb-6">My Zoom Attendance</h3>
+          <div className="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+            <p className="text-sm text-gray-600 mb-6">Your attendance and poll participation across all mandatory morning sessions since your start date.</p>
+            
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="border border-gray-200 rounded-lg p-4">
+                <p className="text-xs text-gray-500 mb-2">Sessions attended</p>
+                <p className="text-3xl font-bold text-gray-900">{zoomAttendance.sessionsAttended} <span className="text-lg text-gray-500">of {zoomAttendance.totalSessions}</span></p>
+              </div>
+              <div className="border border-gray-200 rounded-lg p-4">
+                <p className="text-xs text-gray-500 mb-2">Minutes in session</p>
+                <p className="text-3xl font-bold text-gray-900">{zoomAttendance.minutesInSession} <span className="text-lg text-gray-500">of {zoomAttendance.totalMinutes}</span></p>
+              </div>
+              <div className="border border-gray-200 rounded-lg p-4">
+                <p className="text-xs text-gray-500 mb-2">Polls answered</p>
+                <p className="text-3xl font-bold text-gray-900">{zoomAttendance.pollsAnswered} <span className="text-lg text-gray-500">of {zoomAttendance.totalPolls}</span></p>
+              </div>
+            </div>
+
+            <button 
+              onClick={() => setShowBreakdown(!showBreakdown)}
+              className="text-purple-600 hover:text-purple-700 text-sm font-medium flex items-center gap-1 mb-6"
+            >
+              ▲ Hide day-wise breakdown ({zoomAttendance.breakdown.length} sessions)
+            </button>
+
+            {showBreakdown && (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-900">Date</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-900">Joined (IST)</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-900">Joined from (Email ID)</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-900">Attendance</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-900">Polls</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {zoomAttendance.breakdown.map((row, idx) => (
+                      <tr key={idx} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 text-gray-900 font-medium">{row.date}</td>
+                        <td className="px-4 py-3 text-gray-600">{row.time}</td>
+                        <td className="px-4 py-3 text-gray-600">{row.email}</td>
+                        <td className="px-4 py-3">
+                          <div>
+                            <span className="text-gray-900 font-medium">{row.attendance}</span>
+                            <span className="text-green-600 font-medium ml-2">({row.attendancePercent}%)</span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3">
+                          <div>
+                            <span className="text-gray-900 font-medium">{row.polls}</span>
+                            <span className="text-green-600 font-medium ml-2">({row.pollsPercent}%)</span>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </div>
 

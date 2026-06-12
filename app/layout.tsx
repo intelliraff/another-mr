@@ -9,7 +9,6 @@ const navLinks = [
   { href: "/ask",     label: "AI Assistant" },
   { href: "/raise",   label: "My Questions" },
   { href: "/issues",  label: "My Issues" },
-  { href: "/",        label: "Leaderboard" },
 ];
 
 const announcements = [
@@ -115,39 +114,41 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     )}
                   </button>
 
-                  {/* Notifications Dropdown */}
+                  {/* Notifications Modal */}
                   {showNotifications && (
-                    <div className="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl border border-gray-200 max-h-96 overflow-y-auto z-50">
-                      <div className="sticky top-0 p-4 border-b border-gray-200 bg-white flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6m0 6l2.581-7.08a3 3 0 00-5.606-.6M9 7h.008v.008H9V7z" />
-                          </svg>
-                          <h3 className="font-semibold text-gray-900">Announcements</h3>
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                      <div className="w-full max-w-2xl bg-white rounded-lg shadow-2xl max-h-[90vh] overflow-y-auto">
+                        <div className="sticky top-0 p-6 border-b border-gray-200 bg-white flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6m0 6l2.581-7.08a3 3 0 00-5.606-.6M9 7h.008v.008H9V7z" />
+                            </svg>
+                            <h3 className="font-bold text-gray-900 text-lg">Announcements</h3>
+                          </div>
+                          <button onClick={() => setShowNotifications(false)} className="text-gray-500 hover:text-gray-700 text-2xl">
+                            ✕
+                          </button>
                         </div>
-                        <button onClick={() => setShowNotifications(false)} className="text-gray-500 hover:text-gray-700">
-                          ✕
-                        </button>
-                      </div>
-                      <div className="divide-y divide-gray-200">
-                        {announcements.map((ann) => (
-                          <div key={ann.id} className="p-4 hover:bg-gray-50 transition-colors">
-                            <div className="flex items-start gap-3">
-                              <span className={`px-2 py-1 text-xs font-semibold rounded ${
-                                ann.priority === 'HIGH' 
-                                  ? 'bg-red-100 text-red-700' 
-                                  : 'bg-yellow-100 text-yellow-700'
-                              }`}>
-                                {ann.priority}
-                              </span>
-                              <div className="flex-1">
-                                <h4 className="font-semibold text-gray-900">{ann.title}</h4>
-                                <p className="text-sm text-gray-600 mt-1 whitespace-pre-wrap">{ann.content}</p>
-                                <p className="text-xs text-gray-500 mt-2">Posted by {ann.postedBy} · {ann.date}</p>
+                        <div className="divide-y divide-gray-200 p-6 space-y-6">
+                          {announcements.map((ann) => (
+                            <div key={ann.id} className="pb-6 last:pb-0">
+                              <div className="flex items-start gap-4">
+                                <span className={`px-3 py-1 text-xs font-bold rounded ${
+                                  ann.priority === 'HIGH' 
+                                    ? 'bg-red-100 text-red-700' 
+                                    : 'bg-yellow-100 text-yellow-700'
+                                }`}>
+                                  {ann.priority}
+                                </span>
+                                <div className="flex-1">
+                                  <h4 className="font-bold text-gray-900 text-lg">{ann.title}</h4>
+                                  <p className="text-sm text-gray-600 mt-3 whitespace-pre-wrap leading-relaxed">{ann.content}</p>
+                                  <p className="text-xs text-gray-500 mt-4">Posted by {ann.postedBy} · {ann.date}</p>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
                   )}

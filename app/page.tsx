@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { faqs, type FAQ } from "@/lib/data";
 
-const CATEGORIES = ["Internships & NOCs", "Final Year Projects", "Grades & Transcripts", "Campus Community", "Course Enrollment"] as const;
+const CATEGORIES = ["about", "timing", "technical", "general"] as const;
 
 function FAQItem({ faq }: { faq: FAQ }) {
   const [open, setOpen] = useState(false);
@@ -52,10 +52,10 @@ function FAQItem({ faq }: { faq: FAQ }) {
 
 export default function FAQPage() {
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState<string>("Internships & NOCs");
+  const [activeCategory, setActiveCategory] = useState<string>("about");
 
   const filtered = faqs.filter((f) => {
-    const matchCat = f.category.toLowerCase() === activeCategory.toLowerCase();
+    const matchCat = f.category === activeCategory;
     const matchSearch =
       f.question.toLowerCase().includes(search.toLowerCase()) ||
       f.answer.toLowerCase().includes(search.toLowerCase());
@@ -66,9 +66,9 @@ export default function FAQPage() {
     <div className="min-h-screen bg-white">
       {/* Search Bar - Top */}
       <div className="bg-white border-b border-gray-200 sticky top-16 z-30">
-        <div className="max-w-6xl mx-auto px-8 py-6">
-          <div className="relative max-w-2xl">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 py-5">
+          <div className="relative">
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
             </svg>
             <input
@@ -76,95 +76,48 @@ export default function FAQPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search FAQs..."
-              className="w-full pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-3 py-1.5 text-sm border border-gray-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
             />
           </div>
         </div>
       </div>
 
-      {/* Main Content - Book Layout */}
-      <div className="max-w-6xl mx-auto px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-          {/* Left Sidebar - Categories */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-32">
-              <h3 className="text-sm font-semibold text-gray-600 mb-4 uppercase tracking-wide">POPULAR TOPICS</h3>
-              <nav className="space-y-2">
-                {CATEGORIES.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`block w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                      activeCategory === cat
-                        ? "bg-blue-50 text-blue-600 font-semibold"
-                        : "text-gray-700 hover:text-blue-600"
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </nav>
-            </div>
-          </div>
-
-          {/* Center Content - FAQs (Book-like) */}
-          <div className="lg:col-span-2">
-            {filtered.length > 0 ? (
-              <div>
-                <h1 className="text-3xl font-bold text-black mb-8 pb-4 border-b border-gray-200">
-                  {activeCategory}
-                </h1>
-                <div className="space-y-0">
-                  {filtered.map((faq) => (
-                    <FAQItem key={faq.id} faq={faq} />
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <div className="text-center py-20">
-                <p className="text-gray-600 font-medium">No FAQs found</p>
-              </div>
-            )}
-          </div>
-
-          {/* Right Sidebar - Stats */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-32 space-y-6">
-              {/* Trending */}
-              <div className="bg-gray-50 rounded-lg border border-gray-200 p-4">
-                <h3 className="text-sm font-semibold text-gray-900 mb-4">Trending</h3>
-                <div className="space-y-3">
-                  {[
-                    { q: "How do I register?", views: 892 },
-                    { q: "Password reset", views: 756 },
-                    { q: "Event policy", views: 642 },
-                  ].map((item, idx) => (
-                    <button key={idx} className="w-full text-left hover:text-blue-600 transition-colors">
-                      <p className="text-xs font-medium text-gray-900">{item.q}</p>
-                      <p className="text-xs text-gray-500">{item.views} views</p>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Stats */}
-              <div className="bg-blue-50 rounded-lg border border-blue-200 p-4">
-                <h3 className="text-sm font-semibold text-gray-900 mb-4">Community</h3>
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-xs text-gray-600">Answered Today</p>
-                    <p className="text-2xl font-bold text-blue-600">24</p>
-                  </div>
-                  <div className="h-px bg-blue-200" />
-                  <div>
-                    <p className="text-xs text-gray-600">Contributors</p>
-                    <p className="text-2xl font-bold text-blue-600">847</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* Main Content - Centered */}
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
+        {/* Category selector */}
+        <div className="mb-8 flex items-center gap-2 overflow-x-auto pb-2">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
+                activeCategory === cat
+                  ? "bg-black text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
+
+        {/* FAQs - Centered */}
+        {filtered.length > 0 ? (
+          <div>
+            <h1 className="text-2xl font-semibold text-black mb-6 pb-3 border-b border-gray-200">
+              {activeCategory}
+            </h1>
+            <div className="space-y-0">
+              {filtered.map((faq) => (
+                <FAQItem key={faq.id} faq={faq} />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-sm text-gray-600">No FAQs found</p>
+          </div>
+        )}
       </div>
     </div>
   );

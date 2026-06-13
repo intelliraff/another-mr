@@ -6,10 +6,10 @@
 :root {
   --background: #ffffff;
   --foreground: #000000;
-  --card: #f5f5f5;
-  --card-border: #e0e0e0;
-  --primary: #0052cc;
-  --muted: #888888;
+  --card: #f9f9f9;
+  --card-border: #e5e5e5;
+  --primary: #000000;
+  --muted: #666666;
   --success: #10b981;
   --error: #ef4444;
 }
@@ -17,6 +17,9 @@
 html {
   scroll-behavior: smooth;
   background-color: var(--background);
+  background-image: radial-gradient(circle, #000 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: 0 0;
 }
 
 body {
@@ -24,11 +27,22 @@ body {
   -webkit-font-smoothing: antialiased;
   color: var(--foreground);
   background-color: var(--background);
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
+  font-weight: 600;
+}
+
+h1 { font-size: 28px; }
+h2 { font-size: 22px; }
+h3 { font-size: 18px; }
+h4 { font-size: 16px; }
+
+p, span, div {
+  font-size: 14px;
 }
 
 ::-webkit-scrollbar {

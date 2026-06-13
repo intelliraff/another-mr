@@ -2,79 +2,111 @@ export type FAQ = {
   id: number;
   question: string;
   answer: string;
-  category: "events" | "registration" | "technical" | "general";
+  category: "about" | "timing" | "technical" | "general";
+  section?: string;
 };
 
 export const faqs: FAQ[] = [
+  // About the internship
   {
     id: 1,
-    question: "How do I register for an upcoming event?",
-    answer:
-      "Go to the Events section on samagama.in and click 'Register' on any upcoming event. You'll receive a confirmation email after successful registration.",
-    category: "events",
+    question: "What is the Vicharanashala internship?",
+    answer: "A two-month, full-time engagement at the Vicharanashala Lab, a research lab at IIT Ropar. You will work on a real open-source project under a mentor, after a short training phase tailored to where you already are. The internship is free — we do not charge, and the work is real.",
+    category: "about",
+    section: "About the internship",
   },
   {
     id: 2,
-    question: "Can I attend events without prior registration?",
-    answer:
-      "Most events require pre-registration due to limited capacity. Walk-ins may be allowed for some events at the organizer's discretion.",
-    category: "events",
+    question: "What is VINS?",
+    answer: "VINS is the Vicharanashala Internship — an online programme open to anyone who clears our interview. The work is real open-source contribution under a mentor, the certificate is from the Vicharanashala Lab for Education Design at IIT Ropar, and the programme itself is free (we charge nothing). There is no stipend.",
+    category: "about",
+    section: "About the internship",
   },
   {
     id: 3,
-    question: "How do I reset my password?",
-    answer:
-      "Click 'Forgot Password' on the login page. Enter your registered email and follow the reset link sent to your inbox.",
-    category: "technical",
+    question: "What are the phases of VINS, and what do the badges mean?",
+    answer: "VINS is structured as four phases. Bronze (Phase 1) — a short training period at the start. Silver (Phase 2) — the main work on a real open-source project. Gold (Phase 3) — a recognition awarded if your contribution is a meaningful feature. Platinum (Phase 4) — an invitation to visit the lab with travel support.",
+    category: "about",
+    section: "About the internship",
   },
   {
     id: 4,
-    question: "Why is my profile not updating?",
-    answer:
-      "Clear your browser cache and try again. If the issue persists, try a different browser or raise a support query.",
-    category: "technical",
+    question: "Who is the internship for? Are alumni eligible?",
+    answer: "The internship is open to all students, including alumni. We prioritize candidates with a strong interest in open-source development and research.",
+    category: "about",
+    section: "About the internship",
   },
   {
     id: 5,
-    question: "How do I get my membership ID?",
-    answer:
-      "Membership IDs are issued after completing the registration form and paying the membership fee. Check your email inbox — it arrives within a few minutes.",
-    category: "registration",
+    question: "Is this the same as IIT Ropar's official Summer Research Internship?",
+    answer: "No, this is a separate programme run by the Vicharanashala Lab for Education Design at IIT Ropar. It is not the official summer internship programme.",
+    category: "about",
+    section: "About the internship",
   },
   {
     id: 6,
-    question: "Can I transfer my registration to someone else?",
-    answer:
-      "Registrations are non-transferable. The person registered must attend. Contact the event organizer for special cases.",
-    category: "registration",
+    question: "I have to attend my class tomorrow/today/some day — can I take leave?",
+    answer: "The internship is a full-time commitment. Plan your academic schedule accordingly. Discuss any scheduling conflicts with your mentor before joining.",
+    category: "about",
+    section: "About the internship",
   },
+
+  // Timing and dates
   {
     id: 7,
-    question: "What is Samagama?",
-    answer:
-      "Samagama is a community platform connecting peers, organizing events, and facilitating knowledge sharing among members.",
-    category: "general",
+    question: "When can I start?",
+    answer: "Start dates vary by cohort and depend on when your mentor is available and when you complete the interview and onboarding process.",
+    category: "timing",
+    section: "Timing and dates",
   },
   {
     id: 8,
-    question: "How do I contact the core team?",
-    answer:
-      "Use the 'Raise a Query' page on this platform or email the team at support@samagama.in for direct assistance.",
-    category: "general",
+    question: "How long is the internship?",
+    answer: "The internship is a two-month, full-time commitment. Some mentors may negotiate flexible schedules based on individual circumstances.",
+    category: "timing",
+    section: "Timing and dates",
   },
   {
     id: 9,
-    question: "Are events free to attend?",
-    answer:
-      "Some events are free and others may have a nominal fee. The event listing always shows whether it's free or paid before you register.",
-    category: "events",
+    question: "Can I start in July, August or later if I have exams now?",
+    answer: "Yes, you can apply and interview anytime. Discuss your availability with the programme coordinators, and we'll match you with a mentor when you're ready to start.",
+    category: "timing",
+    section: "Timing and dates",
   },
   {
     id: 10,
-    question: "How long does account verification take?",
-    answer:
-      "Account verification usually takes 24–48 hours after submitting your details. You'll get an email once your account is verified.",
-    category: "registration",
+    question: "Can I start with the cohort and take a relaxation during my exam window?",
+    answer: "This depends on your mentor and the project timeline. Discuss exam schedules during the interview so we can plan accordingly.",
+    category: "timing",
+    section: "Timing and dates",
+  },
+  {
+    id: 11,
+    question: "Can I take leave or get an exemption during the internship for an exam scheduled in June?",
+    answer: "Similar to exams, discuss this upfront with coordinators during the application process. We aim to be flexible, but the internship is a committed full-time programme.",
+    category: "timing",
+    section: "Timing and dates",
+  },
+  {
+    id: 12,
+    question: "Are orientation session recordings shared with interns, and can project assignments be changed after watching them?",
+    answer: "Yes, recordings are shared with interns. Project assignments may be adjusted if there's a strong reason, but discuss this with your mentor early in the internship.",
+    category: "timing",
+    section: "Timing and dates",
+  },
+
+  // Technical (legacy - keep for compatibility)
+  {
+    id: 13,
+    question: "How do I reset my password?",
+    answer: "Click 'Forgot Password' on the login page. Enter your registered email and follow the reset link sent to your inbox.",
+    category: "technical",
+  },
+  {
+    id: 14,
+    question: "Why is my profile not updating?",
+    answer: "Clear your browser cache and try again. If the issue persists, try a different browser or raise a support query.",
+    category: "technical",
   },
 ];
 

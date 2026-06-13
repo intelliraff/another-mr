@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import gsap from "gsap";
 
 type FormState = {
   description: string;
@@ -12,6 +13,16 @@ export default function RaisePage() {
   const [fileName, setFileName] = useState("no file selected");
   const [submitted, setSubmitted] = useState(false);
   const [queueOpen, setQueueOpen] = useState(false);
+  const [showIssuesModal, setShowIssuesModal] = useState(false);
+
+  useEffect(() => {
+    gsap.from(".raise-container", {
+      duration: 0.6,
+      opacity: 0,
+      y: 20,
+      ease: "power3.out"
+    });
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -54,6 +65,192 @@ export default function RaisePage() {
       timestamp: "6 hours ago",
     },
   ];
+
+  const myIssues = [
+    { id: 1, title: "Setup Issue", status: "resolved", date: "2 days ago" },
+    { id: 2, title: "Payment Not Processing", status: "pending", date: "1 day ago" },
+    { id: 3, title: "Profile Picture Upload", status: "resolved", date: "3 days ago" },
+  ];
+
+  return (
+    <div className="raise-container min-h-screen bg-white">
+      {/* Side Issues Button */}
+      <button
+        onClick={() => setShowIssuesModal(true)}
+        className="fixed right-6 bottom-6 z-40 p-3 bg-black text-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300"
+        title="View My Issues"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </button>
+
+      {/* Issues Modal */}
+      {showIssuesModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30" onClick={() => setShowIssuesModal(false)}>
+          <div className="w-full max-w-2xl bg-white rounded-lg shadow-2xl max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 p-6 border-b border-black/10 bg-white flex items-center justify-between">
+              <h2 className="font-bold text-black text-lg uppercase">My Issues</h2>
+              <button onClick={() => setShowIssuesModal(false)} className="text-gray-600 hover:text-black text-2xl">✕</button>
+            </div>
+            <div className="p-6 space-y-3">
+              {myIssues.map((issue) => (
+                <div key={issue.id} className="p-4 border border-black/10 rounded-lg hover:bg-black/2 transition-colors">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="font-bold text-black">{issue.title}</h3>
+                      <p className="text-xs text-gray-600 mt-1">{issue.date}</p>
+                    </div>
+                    <span className={`px-2 py-1 text-xs font-bold rounded-full ${
+                      issue.status === 'resolved' 
+                        ? 'bg-green-100 text-green-700' 
+                        : 'bg-yellow-100 text-yellow-700'
+                    }`}>
+                      {issue.status.toUpperCase()}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Header with stats */}
+      <div className="bg-white border-b border-black/10">
+        <div className="max-w-7xl mx-auto px-8 py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex gap-8 text-sm flex-wrap">
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-black uppercase">#Questions Raised:</span>
+                <span className="text-gray-700 font-bold">0</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-black uppercase">#Questions Answered:</span>
+                <span className="text-gray-700 font-bold">0</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-black uppercase">#Questions Skipped:</span>
+                <span className="text-gray-700 font-bold">5</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-black uppercase">#Questions Flagged:</span>
+                <span className="text-gray-700 font-bold">0</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <Link
+                href="/"
+                className="px-4 py-2 bg-black text-white rounded font-bold hover:bg-black/80 transition-all duration-300 uppercase text-sm tracking-wide"
+              >
+                Dashboard
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div className="max-w-4xl mx-auto px-8 py-12">
+        <Link
+          href="/"
+          className="text-blue-600 hover:text-blue-800 text-sm font-bold mb-6 inline-block"
+        >
+          ← Back
+        </Link>
+
+        <div className="mb-12">
+          <h1 className="text-4xl font-bold text-black mb-2 uppercase tracking-tight">Raise a Query</h1>
+          <p className="text-gray-700">Describe your issue and we'll help resolve it.</p>
+        </div>
+
+        {/* Form */}
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white border border-black/10 rounded-lg p-8 space-y-6"
+        >
+          {/* Description */}
+          <div>
+            <label className="block font-bold text-black mb-3 uppercase text-sm">Describe Your Issue</label>
+            <textarea
+              value={form.description}
+              onChange={(e) =>
+                setForm((prev) => ({ ...prev, description: e.target.value }))
+              }
+              placeholder="Tell us what's going wrong..."
+              maxLength={4096}
+              rows={6}
+              className="w-full p-4 border border-black/10 rounded-lg font-medium resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            <p className="text-xs text-gray-600 mt-2">
+              {form.description.length} / 4096 characters
+            </p>
+          </div>
+
+          {/* File Upload */}
+          <div>
+            <label className="block font-bold text-black mb-3 uppercase text-sm">Attach Screenshot (Optional)</label>
+            <div className="border-2 border-dashed border-black/20 rounded-lg p-6 text-center hover:border-black/40 transition-colors cursor-pointer">
+              <input
+                type="file"
+                onChange={handleFileChange}
+                className="hidden"
+                id="file-input"
+                accept="image/*"
+              />
+              <label htmlFor="file-input" className="cursor-pointer block">
+                <p className="font-bold text-black mb-1">Choose file or drag here</p>
+                <p className="text-sm text-gray-600">{fileName}</p>
+              </label>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={submitted}
+            className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 disabled:opacity-50 transition-all duration-300 uppercase tracking-wide"
+          >
+            {submitted ? "✓ Submitted!" : "Submit Query"}
+          </button>
+        </form>
+
+        {/* Help Another Section */}
+        <div className="mt-12 border-t-2 border-black/10 pt-12">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-black uppercase">Help Others</h2>
+            <button
+              onClick={() => setQueueOpen(!queueOpen)}
+              className="text-sm font-bold text-blue-600 hover:text-blue-800 uppercase"
+            >
+              {queueOpen ? "Hide" : "Show"} Queue
+            </button>
+          </div>
+
+          {queueOpen && (
+            <div className="space-y-3">
+              {queuedQuestions.map((q) => (
+                <div
+                  key={q.id}
+                  className="p-4 border border-black/10 rounded-lg hover:bg-black/2 transition-colors"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <p className="font-bold text-black">{q.question}</p>
+                      <p className="text-xs text-gray-600 mt-1">{q.askedBy} • {q.timestamp}</p>
+                    </div>
+                    <button className="px-3 py-1 bg-green-600 text-white text-xs font-bold rounded hover:bg-green-700 transition-colors uppercase ml-4">
+                      Answer
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-[#F8F9FC]">

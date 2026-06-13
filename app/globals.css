@@ -1,25 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #0f1419;
-  --foreground: #ffffff;
-  --card: #1a2332;
-  --card-border: #2d3748;
-  --primary: #0ea5e9;
-  --primary-light: #06b6d4;
-  --primary-dark: #0284c7;
-  --secondary: #06b6d4;
-  --muted: #94a3b8;
-  --muted-light: #475569;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #ef4444;
-  --accent: #0ea5e9;
-  --text-primary: #f1f5f9;
-  --text-secondary: #cbd5e1;
+  --background: #ffffff;
+  --foreground: #000000;
+  --card: #f5f5f5;
+  --card-border: #e0e0e0;
+  --primary: #0052cc;
+  --primary-light: #1966f5;
+  --primary-dark: #0041a0;
+  --secondary: #00a854;
+  --muted: #888888;
+  --muted-light: #cccccc;
+  --success: #00a854;
+  --warning: #ff9c00;
+  --error: #ff4d4f;
+  --accent: #0052cc;
+  --text-primary: #000000;
+  --text-secondary: #666666;
 }
 
 html {
@@ -28,42 +28,71 @@ html {
 }
 
 body {
-  font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+  font-family: 'Sora', 'Montserrat', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   color: var(--text-primary);
   background-color: var(--background);
-  background-image: 
-    radial-gradient(circle at 20% 50%, rgba(14, 165, 233, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
-  background-attachment: fixed;
+  letter-spacing: -0.01em;
 }
 
-/* Glassmorphism effect - enhanced */
-.glass {
-  background: rgba(26, 35, 50, 0.6);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(14, 165, 233, 0.2);
-  box-shadow: 0 0 40px rgba(14, 165, 233, 0.08);
-}
-
-/* Premium card shadow - modern */
-.card-shadow {
-  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.15), 0 1px 3px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card-shadow-hover {
-  box-shadow: 0 20px 40px rgba(14, 165, 233, 0.2), 0 8px 24px rgba(14, 165, 233, 0.15);
-  transform: translateY(-2px);
-}
-
-/* Smooth transitions */
 * {
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Animations */
-@keyframes fadeInUp {
+/* Typography - Bold, Clean */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Scrollbar styling - minimal */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}
+
+/* GSAP Animation Support */
+.gsap-element {
+  will-change: transform, opacity;
+}
+
+/* Button baseline styles */
+button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+a {
+  transition: all 0.3s ease;
+}
+
+/* Smooth fade */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUpSmooth {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -74,53 +103,10 @@ body {
   }
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
 }
 
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(14, 165, 233, 0.8);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.5s ease-out;
-}
-
-.animate-slide-in {
-  animation: slideIn 0.3s ease-out;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(14, 165, 233, 0.05);
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(14, 165, 233, 0.4);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(14, 165, 233, 0.6);
+.animate-slide-up {
+  animation: slideUpSmooth 0.6s ease-out;
 }

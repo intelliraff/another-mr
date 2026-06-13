@@ -9,17 +9,9 @@
   --card: #f5f5f5;
   --card-border: #e0e0e0;
   --primary: #0052cc;
-  --primary-light: #1966f5;
-  --primary-dark: #0041a0;
-  --secondary: #00a854;
   --muted: #888888;
-  --muted-light: #cccccc;
-  --success: #00a854;
-  --warning: #ff9c00;
-  --error: #ff4d4f;
-  --accent: #0052cc;
-  --text-primary: #000000;
-  --text-secondary: #666666;
+  --success: #10b981;
+  --error: #ef4444;
 }
 
 html {
@@ -30,24 +22,15 @@ html {
 body {
   font-family: 'Sora', 'Montserrat', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  color: var(--text-primary);
+  color: var(--foreground);
   background-color: var(--background);
-  letter-spacing: -0.01em;
 }
 
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Typography - Bold, Clean */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  letter-spacing: -0.02em;
 }
 
-/* Scrollbar styling - minimal */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -65,48 +48,3 @@ h1, h2, h3, h4, h5, h6 {
   background: #999999;
 }
 
-/* GSAP Animation Support */
-.gsap-element {
-  will-change: transform, opacity;
-}
-
-/* Button baseline styles */
-button {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
-a {
-  transition: all 0.3s ease;
-}
-
-/* Smooth fade */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUpSmooth {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out;
-}
-
-.animate-slide-up {
-  animation: slideUpSmooth 0.6s ease-out;
-}
